@@ -141,5 +141,7 @@ listing2-9: $(BIN_DIR)/cap2/listing2-9
 #los que no dan kilombo en el cap2
 $(foreach f,$(CAP2_SRCS_NORMAL),$(eval $(notdir $(basename $(f))): $(BIN_DIR)/cap2/$(notdir $(basename $(f)))) )
 #cap3-------------------------------------------------------------
+$(foreach f,$(CAP3_SRCS),$(eval $(notdir $(basename $(f))): $(BIN_DIR)/cap3/$(notdir $(basename $(f)))))
 #cap4-------------------------------------------------------------
 #cap5-------------------------------------------------------------
+$(foreach f,$(CAP5_SRCS),$(eval $(notdir $(basename $(f))): $(BIN_DIR)/cap5/$(notdir $(basename $(f)))))
