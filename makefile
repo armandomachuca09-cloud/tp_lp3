@@ -123,4 +123,14 @@ clean-cap5:
 clean: 
 	rm -rf $(BIN_DIR)/*
 
+#compilar cada listing uno por uno----------------------------------------
+#cap1--------------------------------------------------------
+# Crear carpeta bin/cap1 si no existe
+$(BIN_DIR)/cap1:
+	mkdir -p $(BIN_DIR)/cap1
 
+# Compilar el ejecutable cap1/reciprocal
+$(BIN_DIR)/cap1/reciprocal: $(CAP1_DIR)/listing1-1.c $(CAP1_DIR)/listing1-2.cpp | $(BIN_DIR)/cap1
+	$(CXX) -o $@ $^
+#target principal
+listing1-1: $(BIN_DIR)/cap1/reciprocal
