@@ -134,3 +134,12 @@ $(BIN_DIR)/cap1/reciprocal: $(CAP1_DIR)/listing1-1.c $(CAP1_DIR)/listing1-2.cpp 
 	$(CXX) -o $@ $^
 #target principal
 listing1-1: $(BIN_DIR)/cap1/reciprocal
+#cap2---------------------------------------------------------------
+listing2-8: $(BIN_DIR)/cap2/listing2-8
+listing2-9: $(BIN_DIR)/cap2/listing2-9
+
+#los que no dan kilombo en el cap2
+$(foreach f,$(CAP2_SRCS_NORMAL),$(eval $(notdir $(basename $(f))): $(BIN_DIR)/cap2/$(notdir $(basename $(f)))) )
+#cap3-------------------------------------------------------------
+#cap4-------------------------------------------------------------
+#cap5-------------------------------------------------------------
