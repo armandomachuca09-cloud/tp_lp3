@@ -6,12 +6,13 @@ SRC_DIR = src
 CAP1_DIR = $(SRC_DIR)/cap1
 CAP3_DIR = $(SRC_DIR)/cap3
 CAP4_DIR = $(SRC_DIR)/cap4
+CAP5_DIR = $(SRC_DIR)/cap5
 
 CC = gcc
 CXX = g++
 
 #make para todo
-all: cap1 cap3 cap4
+all: cap1 cap3 cap4 cap5
 
 
 # Compilar cap1------------------------------------------------------------------------
@@ -68,7 +69,30 @@ $(BIN_DIR)/cap4/%: $(CAP4_DIR)/%.cpp | $(BIN_DIR)/cap4
 # Limpiar cap4
 clean-cap4:
 	rm -f $(BIN_DIR)/cap4/*
+#Compilar cap 5---------------------------------------------------------------
+
 # Limpieza de todo lo generado-------------------------
+# Listados de C
+CAP5_SRCS := $(wildcard $(CAP5_DIR)/listing5-*.c)
+CAP5_BINS := $(patsubst $(CAP5_DIR)/%.c,$(BIN_DIR)/cap5/%,$(CAP5_SRCS))
+
+# Target principal
+cap5: $(CAP5_BINS)
+
+# Crear carpeta bin/cap5 si no existe
+$(BIN_DIR)/cap5:
+	mkdir -p $(BIN_DIR)/cap5
+
+# Regla genérica para compilar cada .c en su ejecutable
+$(BIN_DIR)/cap5/%: $(CAP5_DIR)/%.c | $(BIN_DIR)/cap5
+	$(CC) -o $@ $<
+
+# Limpiar cap5
+clean-cap5:
+	rm -f $(BIN_DIR)/cap5/*
+
+
+
 
 clean: 
 	rm -rf $(BIN_DIR)/*
