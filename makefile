@@ -142,6 +142,10 @@ listing2-9: $(BIN_DIR)/cap2/listing2-9
 $(foreach f,$(CAP2_SRCS_NORMAL),$(eval $(notdir $(basename $(f))): $(BIN_DIR)/cap2/$(notdir $(basename $(f)))) )
 #cap3-------------------------------------------------------------
 $(foreach f,$(CAP3_SRCS),$(eval $(notdir $(basename $(f))): $(BIN_DIR)/cap3/$(notdir $(basename $(f)))))
-#cap4-------------------------------------------------------------
+#cap4------------------------------------------------------------
+#C
+$(foreach f,$(CAP4_SRCS_C),$(eval $(notdir $(basename $(f))): $(BIN_DIR)/cap4/$(notdir $(basename $(f)))))
+#C++
+listing4-9: $(BIN_DIR)/cap4/listing4-9
 #cap5-------------------------------------------------------------
 $(foreach f,$(CAP5_SRCS),$(eval $(notdir $(basename $(f))): $(BIN_DIR)/cap5/$(notdir $(basename $(f)))))
