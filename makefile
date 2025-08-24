@@ -1,9 +1,8 @@
-
-
 BIN_DIR = bin
 SRC_DIR = src
 
 CAP1_DIR = $(SRC_DIR)/cap1
+CAP2_DIR = $(SRC_DIR)/cap2
 CAP3_DIR = $(SRC_DIR)/cap3
 CAP4_DIR = $(SRC_DIR)/cap4
 CAP5_DIR = $(SRC_DIR)/cap5
@@ -12,7 +11,7 @@ CC = gcc
 CXX = g++
 
 #make para todo
-all: cap1 cap3 cap4 cap5
+all: cap1 cap2  cap3 cap4 cap5
 
 
 # Compilar cap1------------------------------------------------------------------------
@@ -20,6 +19,37 @@ all: cap1 cap3 cap4 cap5
 cap1: $(CAP1_DIR)/listing1-1.c $(CAP1_DIR)/listing1-2.cpp
 	@mkdir -p $(BIN_DIR)/cap1
 	$(CXX) -o $(BIN_DIR)/cap1/reciprocal $(CAP1_DIR)/listing1-1.c $(CAP1_DIR)/listing1-2.cpp
+
+#compilar cap2---------------------------------------------------------------
+
+# Listados normales (hay kilombo con los listings 2-7, 2-8, 2-9)
+CAP2_SRCS_NORMAL := $(filter-out $(CAP2_DIR)/listing2-7.c $(CAP2_DIR)/listing2-8.c $(CAP2_DIR)/listing2-9.c,$(wildcard $(CAP2_DIR)/listing2-*.c))
+CAP2_BINS_NORMAL := $(patsubst $(CAP2_DIR)/%.c,$(BIN_DIR)/cap2/%,$(CAP2_SRCS_NORMAL))
+
+# Target principal 
+cap2: $(BIN_DIR)/cap2/listing2-8 $(BIN_DIR)/cap2/listing2-9 $(CAP2_BINS_NORMAL)
+
+# Crear carpeta bin/cap2 si no existe
+$(BIN_DIR)/cap2:
+	mkdir -p $(BIN_DIR)/cap2
+
+# Reglas
+# 2-7 + 2-8 compilados juntos
+$(BIN_DIR)/cap2/listing2-8: $(CAP2_DIR)/listing2-7.c $(CAP2_DIR)/listing2-8.c | $(BIN_DIR)/cap2
+	$(CC) -o $@ $(CAP2_DIR)/listing2-7.c $(CAP2_DIR)/listing2-8.c
+
+# 2-9 con libtiff
+$(BIN_DIR)/cap2/listing2-9: $(CAP2_DIR)/listing2-9.c | $(BIN_DIR)/cap2
+	$(CC) -o $@ $< -ltiff
+
+# Resto de listings normales
+$(BIN_DIR)/cap2/%: $(CAP2_DIR)/%.c | $(BIN_DIR)/cap2
+	$(CC) -o $@ $<
+
+# Limpiar cap2
+clean-cap2:
+	rm -f $(BIN_DIR)/cap2/*
+
 
 # compilar cap3-------------------------------------------------------------------------------------
 
@@ -38,16 +68,12 @@ $(BIN_DIR)/cap3:
 	mkdir -p $(BIN_DIR)/cap3
 
 
-
-
-
 #Compilar el cap4----------------------------------------------------------------------------------------
 
 CAP4_SRCS_C := $(wildcard $(CAP4_DIR)/listing4-*.c)
-CAP4_BINS_C := $(patsubst $(CAP4_DIR)/%.c,$(BIN_DIR)/cap4/%,$(CAP4_SRCS_C))
-
-# Listado C++, para el caso 4-9.cpp 
 CAP4_SRCS_CPP := $(CAP4_DIR)/listing4-9.cpp
+
+CAP4_BINS_C := $(patsubst $(CAP4_DIR)/%.c,$(BIN_DIR)/cap4/%,$(CAP4_SRCS_C))
 CAP4_BINS_CPP := $(patsubst $(CAP4_DIR)/%.cpp,$(BIN_DIR)/cap4/%,$(CAP4_SRCS_CPP))
 
 CAP4_BINS := $(CAP4_BINS_C) $(CAP4_BINS_CPP)
@@ -69,9 +95,9 @@ $(BIN_DIR)/cap4/%: $(CAP4_DIR)/%.cpp | $(BIN_DIR)/cap4
 # Limpiar cap4
 clean-cap4:
 	rm -f $(BIN_DIR)/cap4/*
+
 #Compilar cap 5---------------------------------------------------------------
 
-# Limpieza de todo lo generado-------------------------
 # Listados de C
 CAP5_SRCS := $(wildcard $(CAP5_DIR)/listing5-*.c)
 CAP5_BINS := $(patsubst $(CAP5_DIR)/%.c,$(BIN_DIR)/cap5/%,$(CAP5_SRCS))
@@ -92,7 +118,9 @@ clean-cap5:
 	rm -f $(BIN_DIR)/cap5/*
 
 
-
+#limpiar todo----------------------------------------------------------------
 
 clean: 
 	rm -rf $(BIN_DIR)/*
+
+
